@@ -11,7 +11,7 @@
          "tianabot",
          "telegram"
       ],   
-   "repository": "https://github.com/Prince-Botz/TianaBot",
+   "repository": "https://github.com/Thajudecodes/tiannabot",
    "addons": [
       {
          "options": {
@@ -81,12 +81,12 @@
       },
       "BOT_NAME": {
          "description": "Your Bot Name",
-         "value": "Tiana"
+         "value": "Tianna"
       },
       "UPDATE_CHANNEL": {
          "description": "Your Telegram Bot Update Channel username Without @ like: TianaxUpdates.",
          "required": true,
-         "value": "TianaxUpdates"
+         "value": "nihaxcks"
       },
       "SUPPORT_CHAT": {
          "description": "Your Telegram support group chat username Without @ like: TianaxSupport.",
@@ -164,7 +164,7 @@
       "DONATION_LINK": {
          "description": "Optional: link where you would like to receive donations. If you are a noob, better leave it linking to paul",
          "required": false,
-         "value": "https://t.me/PrincexDonateBot"
+         "value": "https://t.me/armiy_v"
       }   
    }
 }
