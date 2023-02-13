@@ -16,9 +16,7 @@ CANCEL_STRING = """Privacy deletion request cancelled."""
 
 @run_async
 def privacy(update, context):
-    user = update.effective_message.from_user
     chat = update.effective_chat  # type: Optional[Chat]
-    bot = context.bot
     if chat.type == "private":
         update.effective_message.reply_text(
             PRIVACY_STRING, parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True, reply_markup=InlineKeyboardMarkup(
@@ -38,6 +36,8 @@ def privacy(update, context):
         )
 
     else:
+        user = update.effective_message.from_user
+        bot = context.bot
         try:
             bot.send_message(
                 user.id,
