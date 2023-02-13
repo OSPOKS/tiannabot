@@ -15,14 +15,12 @@ client = tbot
 
 @register(pattern=r"^/send ?(.*)")
 async def Prof(event):
-    if event.sender_id == OWNER_ID:
-        pass
-    else:
+    if event.sender_id != OWNER_ID:
         return
     thumb = water
     message_id = event.message.id
     input_str = event.pattern_match.group(1)
-    the_plugin_file = "./Tianabot/modules/{}.py".format(input_str)
+    the_plugin_file = f"./Tianabot/modules/{input_str}.py"
     if os.path.exists(the_plugin_file):
      message_id = event.message.id
      await event.client.send_file(
@@ -47,9 +45,7 @@ from pathlib import Path
 async def install(event):
     if event.fwd_from:
         return
-    if event.sender_id == OWNER_ID:
-        pass
-    else:
+    if event.sender_id != OWNER_ID:
         return
     if event.reply_to_msg_id:
         try:
@@ -63,9 +59,8 @@ async def install(event):
                 path1 = Path(downloaded_file_name)
                 shortname = path1.stem
                 load_module(shortname.replace(".py", ""))
-                await event.reply("Installed.... 👍\n `{}`".format(
-                        os.path.basename(downloaded_file_name)
-                    ),
+                await event.reply(
+                    f"Installed.... 👍\n `{os.path.basename(downloaded_file_name)}`"
                 )
             else:
                 os.remove(downloaded_file_name)
@@ -100,30 +95,27 @@ opn = []
 @register(pattern="/open")
 async def _(event):
     xx = await event.reply("Processing...")
-    if event.reply_to_msg_id:
-        a = await event.get_reply_message()
-        if a.media:
-            b = await a.download_media()
-            c = open(b, "r")
-            d = c.read()
-            c.close()
-            n = 4096
-            for bkl in range(0, len(d), n):
-                opn.append(d[bkl : bkl + n])
-            for bc in opn:
-                await event.client.send_message(
-                    event.chat_id,
-                    f"{bc}",
-                    reply_to=event.reply_to_msg_id,
-                )
-            await event.delete()
-            opn.clear()
-            os.remove(b)
-            await xx.delete()
-        else:
-            return await event.reply("Reply to a readable file")
-    else:
+    if not event.reply_to_msg_id:
         return await event.reply("Reply to a readable file")
+    a = await event.get_reply_message()
+    if not a.media:
+        return await event.reply("Reply to a readable file")
+    b = await a.download_media()
+    with open(b, "r") as c:
+        d = c.read()
+    n = 4096
+    for bkl in range(0, len(d), n):
+        opn.append(d[bkl : bkl + n])
+    for bc in opn:
+        await event.client.send_message(
+            event.chat_id,
+            f"{bc}",
+            reply_to=event.reply_to_msg_id,
+        )
+    await event.delete()
+    opn.clear()
+    os.remove(b)
+    await xx.delete()
 
 client = tbot
 import time
